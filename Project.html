@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>The Litecoin Miners</title>
+    <title>The Litecoin Project</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -63,9 +63,11 @@ for(i in data){
   }
 }*/
 
+//GET LTC PRICE
 $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPMk18hJw6S2tPdKvuNhrTy5faSx&fiat=usd', function(data) {
-    console.log(data.Markets[0][3518]['Price']);
-    //LTC is record 3517
+    console.log(data.Markets[0][3520]['Label']);
+    var ltcprice = data.filter(function(el){return el.Markets[0].Label == "LTC/USD"}).Price;
+      console.log(ltcprice);
 
 });
 
