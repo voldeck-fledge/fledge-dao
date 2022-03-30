@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-      - export DEPLOYPATH=/home/dashboard/
+      - export DEPLOYPATH=/home/fdg/dashboard/
       - /bin/cp -R * $DEPLOYPATH
 
