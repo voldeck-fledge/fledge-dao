@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-      - export DEPLOYPATH=/home/fdg/dashboard/
+      - export DEPLOYPATH=/home/fdg/public_html/dashboard/
       - /bin/cp index.html $DEPLOYPATH
       - /bin cp -R * $DEPLOYPATH
 
