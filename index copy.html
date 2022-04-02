@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>The Litecoin Project</title>
+    <title>The Fledge DAO</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -31,51 +31,11 @@
     //Connect with MetaMask
         //Moralis.initialize("YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM");
         //Moralis.serverURL = 'https://9tyik5gpl7u7.usemoralis.com:2053/server';
-
-// Url : https://www.worldcoinindex.com/apiservice/v2getmarkets?key={zkOq3lRr3u0qNnKuBLY5xlcezAGOR5OLw6I}&fiat=usd
-
-//API example:
-//{
-//  "Markets" : [
-//    {
-//      "Label" : "ETH/(Fiat)",
-//      "Name" : "Ethereum",
-//      "Price" : 0.01948437,
-//      "Volume_24h" : 28680.92498425,
-//      "Timestamp" : 1461221820
-//    },{
-//      "Label" : "LTC/(Fiat)",
-//      "Name" : "Litecoin",
-//      "Price" : 0.01948437,
-//      "Volume_24h" : 28680.92498425,
-//      "Timestamp" : 1461221820
-//   }
-//  ]
-//}
-
-/*var data = JSON.parse(json);
-
-var i;
-
-for(i in data){
-  if(data[i]instanceof Object){
-    console.log(data[i]);
-  }
-}*/
-
-//GET LTC PRICE
-$.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPMk18hJw6S2tPdKvuNhrTy5faSx&fiat=usd', function(data) {
-    //console.log(data.Markets[0][3520]['Label']);
-    let obj = data.Markets[0].filter(item => item.Label === "LTC/USD");
-    let ltcprice = obj[0].Price;
-    console.log(ltcprice);
-
-});
-
         const serverUrl = "https://9tyik5gpl7u7.usemoralis.com:2053/server";
         const appId = "YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM";
+        
         Moralis.start({ serverUrl, appId });
-     
+     //This is getting FLDG at this point
     async function getPrice() {
         const options = {
           address: "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
@@ -86,40 +46,32 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
 
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
-        //this should not be coin specific
-        const ltc = 134.21;
-        const numdays = 38;
-        //this should not be coin specific
-        const ltcperday = .112;
-        const eleccostday = 14.36;
-        const heatsavings = 3.50;
-        const usdperday = ltc * ltcperday;
-        const totalrevenuecalc = usdperday * numdays;
-        const energyprojectpercent = .25;
-        const propertyprojectpercent = .25;
-        const daoprojectpercent = .25;
-        const resppersonprojectpercent = .25;
-        const numresponsparty = 2;
-        
+        const maticprice = 1.63;
+        const fliesbalancematic = 15;
+        const fliessold = 270;
+        //console.log(usdprice);
 
         //display price
         document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
-        
-        //set the contstants for now
-        //should not be coin specific
-        document.getElementById('ltcprice').innerHTML = '<strong>' + ltc + '</strong>';
-        document.getElementById('ltcrevperday').innerHTML = '<strong>' + Number.parseFloat(ltc * ltcperday).toFixed(2) + '</strong>';
-        document.getElementById('costperday').innerHTML = '<strong>' + eleccostday + '</strong>';
-        document.getElementById('totalrevenue').innerHTML = '<strong>' + Number.parseFloat(totalrevenuecalc).toFixed(2) + '</strong>';
-        document.getElementById('totalcost').innerHTML = '<strong>' + Number.parseFloat(eleccostday * numdays).toFixed(2) + '</strong>';
-        document.getElementById('totalsavings').innerHTML = '<strong>' + Number.parseFloat(heatsavings * numdays).toFixed(2) + '</strong>';
-        document.getElementById('totalsprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
-        document.getElementById('totalprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
-        document.getElementById('energyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * energyprojectpercent).toFixed(2) + '</strong>';
-        document.getElementById('propertyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * propertyprojectpercent).toFixed(2) + '</strong>';
-        document.getElementById('daoproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * daoprojectpercent).toFixed(2) + '</strong>';
-        document.getElementById('tokenholders').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * resppersonprojectpercent / numresponsparty).toFixed(2) + '</strong>';
-        
+        //set the contstants above and put transforms anc calculations here or up there - need to decide
+        document.getElementById('daomembers').innerHTML = '<strong>' + "45" + '</strong>';
+        document.getElementById('fldgholders').innerHTML = '<strong>' + "84" + '</strong>';
+        document.getElementById('fldgtransactions').innerHTML = '<strong>' + "207" + '</strong>';
+        document.getElementById('fliesminted').innerHTML = '<strong>' + "270" + '</strong>';
+        document.getElementById('fliesholders').innerHTML = '<strong>' + "49" + '</strong>';
+        document.getElementById('fliesfloor').innerHTML = '<strong>' + ".005" + '</strong>';
+        document.getElementById('fliesbalance').innerHTML = '<strong>' + "$" + maticprice * fliesbalancematic + '</strong>';
+        document.getElementById('hsnbalance').innerHTML = '<strong>' + "$764.45" + '</strong>';
+        document.getElementById('univ2balance').innerHTML = '<strong>' + "$915.49" + '</strong>';
+        document.getElementById('slpbalance').innerHTML = '<strong>' + "$113.35" + '</strong>';
+        document.getElementById('gnosisfldg').innerHTML = '<strong>' + "5,239,108" + '</strong>';
+        document.getElementById('gnosismatic').innerHTML = '<strong>' + "$" + maticprice * .20 + '</strong>';
+        document.getElementById('gnosishsn').innerHTML = '<strong>' + "0" + '</strong>';
+        document.getElementById('gnosisslp').innerHTML = '<strong>' + "74.00" + '</strong>';
+        document.getElementById('gnosisuniv2').innerHTML = '<strong>' + "600.07" + '</strong>';
+        document.getElementById('project3dprinter1').innerHTML = '<strong>' + "$" + Number.parseFloat(usdprice * 5 ).toFixed(2)+ '</strong>';
+        document.getElementById('profitflies').innerHTML = '<strong>' + "$" + maticprice * fliessold * 5 + '</strong>';
+
         getToken();
       }
       
@@ -128,7 +80,7 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
     }
 
     </script>
-    
+
   </head>
   <body>
     <div class="container-scroller">
@@ -137,7 +89,11 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
           <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
             <div class="ps-lg-1">
               <div class="d-flex align-items-center justify-content-between">
-                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">Litecoin Miners</a>
+<<<<<<< HEAD
+<!--should we make this a universal home button-->
+=======
+>>>>>>> 101faa47403cf70bc3cf42b35c62b272a8ef8ae6
+                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">The Fledge DAO</a>
               </div>
             </div>
           </div>
@@ -337,19 +293,20 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
             </button>
           </div>
         </nav>
-        <!-- partial -->
+        <!-- this is the start of the dashobard -->
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="row">
             </div>
             <div class="row">
+              <!--DAO Member Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="ltcprice"></span></h3>
+                          <h3 class="mb-0"><span id="daomembers"></span></h3>
                           <p class="text-success ms-2 mb-0 font-weight-medium">+1</p>
                         </div>
                       </div>
@@ -359,20 +316,20 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">LTC Price</h6>
-                    <h3 class="mb-0"><span id="fldgprice"></span></h3>
-
-                    <a href="https://coinmarketcap.com/currencies/litecoin/" target="_blank" title="Website">More Data</Datag></a>
+                    <h6 class="text-muted font-weight-normal">DAO members</h6>
+                    <a href="https://snapshot.org/#/thefledge.eth" target="_blank" title="Website">Join the DAO</a>
+                    <a href="https://www.appsheet.com/start/9a540ace-be2a-4ba7-a50f-6cc36e327d5c#appName=ProposalDevelopmentResponses-6211516&group=%5B%5D&sort=%5B%7B%22Column%22%3A%22Timestamp%22%2C%22Order%22%3A%22Ascending%22%7D%5D&table=Form+Responses+1&view=Form+Responses+1" target="_blank" title="Website">See Proposals</a>
                   </div>
                 </div>
               </div>
+              <!--FLDG Price Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="ltcrevperday"></span></h3>
+                          <h3 class="mb-0"><span id="fldgprice"></span></h3>
                           <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
                         </div>
                       </div>
@@ -382,19 +339,20 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Average Daily Revenue</h6>
-                    <a href="https://www.litecoinpool.org/api?format=html&api_key=f429b3b5537c9608f908e69eec3fb2ba&fbclid=IwAR01zwTjtOVkiIuqp3GwdTaBYLzsvKVYP_uB7nWK5B7zm-x6L9MqVt1J6lw" target="_blank" title="Website">Current Status</a>
+                    <h6 class="text-muted font-weight-normal">FLDG price</h6>
+                    <a href="mypage.html" title="Website">Your Page</a>
                   </div>
                 </div>
               </div>
+             <!--FLDG Holders Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="costperday"></span></h3>
-                          <p class="text-danger ms-2 mb-0 font-weight-medium">0.0%</p>
+                          <h3 class="mb-0"><span id="fldgholders"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+5</p>
                         </div>
                       </div>
                       <div class="col-3">
@@ -403,19 +361,20 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Daily Electric Cost</h6>
+                    <h6 class="text-muted font-weight-normal">FLDG holders</h6>
                     <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b#balances" target="_blank" title="Website">View Balances</a>
                   </div>
                 </div>
               </div>
+             <!--FLDG Transactions Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$3.50</h3>
-                          <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p>
+                          <h3 class="mb-0"><span id="fldgtransactions"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+69</p>
                         </div>
                       </div>
                       <div class="col-3">
@@ -424,12 +383,13 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Daily Heat Savings</h6>
-                    <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b" target="_blank" title="Website">View Heat Bill</a>
+                    <h6 class="text-muted font-weight-normal">FLDG transactions</h6>
+                    <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b" target="_blank" title="Website">View Transactions</a>
                   </div>
                 </div>
               </div>
             </div>
+            <!--Flies Minted Widget-->
              <div class="row">
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
@@ -437,8 +397,8 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h6 class="mb-0"><span id="totalprofit"></span></h6>
-                          <p class="text-success ms-2 mb-0 font-weight-medium">+1</p>
+                          <h3 class="mb-0"><span id="fliesminted"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+3</p>
                         </div>
                       </div>
                       <div class="col-3">
@@ -447,18 +407,19 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Profit to Date</h6>
-                    <a href="https://flies.fldg.io" target="_blank" title="Website">View Smart Contract</a>
+                    <h6 class="text-muted font-weight-normal">FLY NFTs minted</h6>
+                    <a href="https://flies.fldg.io" target="_blank" title="Website">Buy a Fly</a>
                   </div>
                 </div>
               </div>
+              <!--Flies Holders Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">2</h3>
+                          <h3 class="mb-0"><span id="fliesholders"></span></h3>
                           <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
                         </div>
                       </div>
@@ -468,143 +429,248 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Trust Tokens Issued</h6>
+                    <h6 class="text-muted font-weight-normal">FLY owners</h6>
                     <a href="https://polygonscan.com/token/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19#balances" target="_blank" title="Website">View Holders</a>
                   </div>
                 </div>
               </div>
+             <!--Flies Floor Widget-->
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0"><span id="fliesfloor"></span></h3>
+                          <p class="text-danger ms-2 mb-0 font-weight-medium">-2.4%</p>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-danger">
+                          <span class="mdi mdi-currency-usd icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">FLY floor price</h6>
+                    <a href="https://opensea.io/collection/fledgeflies" target="_blank" title="Website">View on OpenSea</a>
+                  </div>
+                </div>
+              </div>
+             <!--Flies Balance Widget-->
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0"><span id="fliesbalance"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+15</p>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-success ">
+                          <span class="mdi mdi-format-list-bulleted icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">FLY contract contents</h6>
+                    <a href="https://polygonscan.com/address/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19" target="_blank" title="Website">View Contract Activity</a>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-3 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Profit Distribution</h4>
-                    <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Energy</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="energyproject"></span></h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Property</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="propertyproject"></span></h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">DAO General</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="daoproject"></span></h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Responsible Persons</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="tokenholders"></span></h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Overview</h4>
-                    <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Total Revenue</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="totalrevenue"></span></h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Total Savings</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="totalsavings"></span></h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Total Cost</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="totalcost"></span></h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Total Profit</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="mb-0"><span id="totalsprofit"></span></h6>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Smart Contract</h4>
+                    <h4 class="card-title">Live Projects</h4>
                     <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-left text-xl-left">
-                        <h6 class="mb-1">Matic</h6>
+                        <a href="project.html" title="Website">Build a DAO</a>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$236</h6>
+                        <h6 class="font-weight-bold mb-0">$0</h6>
                       </div>
                     </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <a href="project.html" title="Website">LTC Miners</a>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$112.35</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <a href="project.html" title="Website">Studio Door</a>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$25</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <a href="project.html" title="Website">Fledge Flies</a>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="profitflies"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <a href="project3DP1.html" title="Website">3D Printer1</a>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="project3dprinter1"></span></h6>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Project Budgets</h4>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdHXk0y8XCaotzf3ZoD12chNmI53yVv_4pvcuLgwhH9Z7p49A/viewform" target="_blank" title="Website">I have an idea</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdpwHM_JUWbcyRGTK08rqCr4d01-mVu0O6EDtJXzlld-B0RDw/viewform" target="_blank" title="Website">Proposal Development</a>
+                    <!--should we create a safe for each project budget-->
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">DAO Projects</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$750</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Energy Projects</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$25</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">FMG Projects</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$15</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Property Projects</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$25</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">NFT Projects</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$24</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Maker Projects</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$25</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Liquidity Pools</h4>
+                    <a href="https://app.honeyswap.org/#/swap" target="_blank" title="Website">Buy on Honeyswap</a>
+                    <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <a href="https://polygonscan.com/address/0xaed9fa40ddda3c9802eb5cae34a401ea30bfd148" target="_blank" title="Website">Honeyswap</a>                  
+                      </div>
+                      <div class="align-self-left flex-grow text-md-left text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="hsnbalance"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <a href="https://polygonscan.com/address/0x2f466b153e6b0d7466aa36c3f3835e2d146fd916" target="_blank" title="Website">Quickswap</a>                  
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="univ2balance"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <a href="https://polygonscan.com/address/0x38bac64e283c898fa792bf2ee16aacccf482961f" target="_blank" title="Website">Sushiswap</a>                  
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="slpbalance"></span></h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Gnosis Safe Contents</h4>
+                    <a href="https://gnosis-safe.io/app/matic:0x7510659f6b4485E48C25De1a61923A1E221CDbcd/balances" target="_blank" title="Website">Gnosis Safe</a>                         
+                    <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
+                    <!--need to pull the above data from the gnosis safe interface-->
+
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-left text-xl-left">
                         <h6 class="mb-1">FLDG</h6>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$593</h6>
+                        <h6 class="mb-0"><span id="gnosisfldg"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Matic</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="gnosismatic"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">HSN</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="gnosishsn"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">UNIV2</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="gnosisuniv2"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">SLP</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="gnosisslp"></span></h6>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Transfer</h4>
-                    <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Transfer to Project</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$236</h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Tranfer to People</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$593</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
             </div>
           </div>
           <!-- content-wrapper ends -->
