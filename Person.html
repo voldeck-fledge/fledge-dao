@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Your Story</title>
+    <title>Address Story</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -34,6 +34,7 @@
         Moralis.start({ serverUrl, appId });
 
     //Get the FLDG Price    
+//Can you get address from a source (wallet or parameter)
     async function getPrice() {
         const options = {
           address: "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
@@ -65,7 +66,7 @@
           <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
             <div class="ps-lg-1">
               <div class="d-flex align-items-center justify-content-between">
-                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">Your Story</a>
+                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">Address Story</a>
               </div>
             </div>
           </div>
@@ -267,7 +268,7 @@
             </button>
           </div>
         </nav>
-        <!-- partial -->
+        <!--This is the start of the dashboard  -->
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="row">
