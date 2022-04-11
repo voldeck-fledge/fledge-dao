@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Your Story</title>
+    <title>Fledge Flies</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -29,76 +29,53 @@
     
     <script>
     //Connect with MetaMask
+        //Moralis.initialize("YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM");
+        //Moralis.serverURL = 'https://9tyik5gpl7u7.usemoralis.com:2053/server';
+
+// Url : https://www.worldcoinindex.com/apiservice/v2getmarkets?key={zkOq3lRr3u0qNnKuBLY5xlcezAGOR5OLw6I}&fiat=usd
+
+//API example:
+//{
+//  "Markets" : [
+//    {
+//      "Label" : "ETH/(Fiat)",
+//      "Name" : "Ethereum",
+//      "Price" : 0.01948437,
+//      "Volume_24h" : 28680.92498425,
+//      "Timestamp" : 1461221820
+//    },{
+//      "Label" : "LTC/(Fiat)",
+//      "Name" : "Litecoin",
+//      "Price" : 0.01948437,
+//      "Volume_24h" : 28680.92498425,
+//      "Timestamp" : 1461221820
+//   }
+//  ]
+//}
+
+/*var data = JSON.parse(json);
+
+var i;
+
+for(i in data){
+  if(data[i]instanceof Object){
+    console.log(data[i]);
+  }
+}*/
+
+//GET LTC PRICE
+$.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPMk18hJw6S2tPdKvuNhrTy5faSx&fiat=usd', function(data) {
+    //console.log(data.Markets[0][3520]['Label']);
+    let obj = data.Markets[0].filter(item => item.Label === "LTC/USD");
+    let ltcprice = obj[0].Price;
+    console.log(ltcprice);
+
+});
+
         const serverUrl = "https://9tyik5gpl7u7.usemoralis.com:2053/server";
         const appId = "YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM";
         Moralis.start({ serverUrl, appId });
-//pasted
-        function login() {
-           // var user = Moralis.Web3.authenticate();
-        //if success enable lockbutton
-            checkConn();
-        }
-    //
-    async function checkConn() {
-        await Moralis.Web3.authenticate();
-        console.log("logged in");
-        checkNFT();
-    }
-    
-    async function logOut() {
-            await Moralis.User.logOut();
-            console.log("logged out");
-        }
-        
-    async function checkNFT() {
-        const currentUser = Moralis.User.current();
-        const useraddress = currentUser.attributes.ethAddress;
-        const options = { chain: 'matic', address: useraddress };
-        
-        const polygonNFTs = await Moralis.Web3.getNFTs(options);
-        const nftCount = await Moralis.Web3.getNFTsCount(options);
-        const fldgbalanceget =  3000; 
-        //await Moralis.Web3.getToken(options);
-        const profit = 93;
-        const daomember = true;
-        const flyprice = 5;
-        const getnftbalance = nftCount * flyprice;
-
-        console.log(nftCount);
-        console.log(fldgbalance);
-        console.log(profit);
-        console.log(daomember);
-        console.log(getnftbalance);
-
-      
-        //console.log(polygonNFTs);
-        //console.log(polygonNFTs[0].token_address);
-        document.getElementById('numnfts').innerHTML = '<strong>' + nftCount + '</strong>';
-        document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget + '</strong>';
-        document.getElementById('yourprofit').innerHTML = '<strong>' + profit + '</strong>';
-        document.getElementById('daomember').innerHTML = '<strong>' + daomember  + '</strong>';
-        document.getElementById('yournftbalance').innerHTML = '<strong>' + getnftbalance  + '</strong>';
-
-        //token_address the contract address, e.g. for trust tokens?
-        
-        var count = 0;
-        for(var i = 0; i < polygonNFTs.length; ++i){
-    //is this the contract address?
-            if(polygonNFTs[i].token_address == '0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19')
-                count++;
-        }
-        console.log(count);
-        if (count > 0) {
-        $('#lockbutton').prop('disabled', false);
-        }
-        else {
-            console.log("No Trust Tokens");
-        }
-
-        
-    }
-    
-    //Get the FLDG Price    
+     
     async function getPrice() {
         const options = {
           address: "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
@@ -109,12 +86,40 @@
 
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
-        const daomembersget = 45;
+        //this should not be coin specific
+//        const ltc = ltcprice;
+        const numdays = 38;
+        //this should not be coin specific
+        const ltcperday = .112;
+        const eleccostday = 14.36;
+        const heatsavings = 3.50;
+        const usdperday = ltcprice * ltcperday;
+        const totalrevenuecalc = usdperday * numdays;
+        const energyprojectpercent = .25;
+        const propertyprojectpercent = .25;
+        const daoprojectpercent = .25;
+        const resppersonprojectpercent = .25;
+        const numresponsparty = 2;
         
+
         //display price
         document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
-        document.getElementById('daomembers').innerHTML = '<strong>' + daomembersget + '</strong>';
-
+        
+        //set the contstants for now
+        //should not be coin specific
+        document.getElementById('ltc').innerHTML = '<strong>' + ltcprice + '</strong>';
+        document.getElementById('ltcrevperday').innerHTML = '<strong>' + Number.parseFloat(ltc * ltcperday).toFixed(2) + '</strong>';
+        document.getElementById('costperday').innerHTML = '<strong>' + eleccostday + '</strong>';
+        document.getElementById('totalrevenue').innerHTML = '<strong>' + Number.parseFloat(totalrevenuecalc).toFixed(2) + '</strong>';
+        document.getElementById('totalcost').innerHTML = '<strong>' + Number.parseFloat(eleccostday * numdays).toFixed(2) + '</strong>';
+        document.getElementById('totalsavings').innerHTML = '<strong>' + Number.parseFloat(heatsavings * numdays).toFixed(2) + '</strong>';
+        document.getElementById('totalsprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
+        document.getElementById('totalprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
+        document.getElementById('energyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * energyprojectpercent).toFixed(2) + '</strong>';
+        document.getElementById('propertyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * propertyprojectpercent).toFixed(2) + '</strong>';
+        document.getElementById('daoproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * daoprojectpercent).toFixed(2) + '</strong>';
+        document.getElementById('tokenholders').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * resppersonprojectpercent / numresponsparty).toFixed(2) + '</strong>';
+        
         getToken();
       }
       
@@ -132,14 +137,12 @@
           <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
             <div class="ps-lg-1">
               <div class="d-flex align-items-center justify-content-between">
-                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">Your Story</a>
+                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">Fledge Flies</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
@@ -161,7 +164,7 @@
               <li class="nav-item dropdown d-none d-lg-block">
                 <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
-                  <h6 class="p-3 mb-0">FLDG Balance</h6>
+                  <h6 class="p-3 mb-0">Projects</h6>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
@@ -170,7 +173,7 @@
                       </div>
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">Your FLDG</p>
+                      <p class="preview-subject ellipsis mb-1">Software Development</p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
@@ -334,62 +337,64 @@
             </button>
           </div>
         </nav>
-        <!--This is the start of the dashboard -->
+        <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="row">
             </div>
-              <!--Your Profit Widget-->
-              <div class="row">
-                <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-9">
-                          <div>
-                            <button onclick="login()" id="walletbutton" type="button" class="btn btn-primary">Please Connect Wallet</button>
-                          </div>
-                        </div>
-                        <div class="col-3">
-                          <div class="icon icon-box-danger">
-                            <span class="mdi mdi-currency-usd icon-item"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            <!--Your Profit Widget-->
-              <div class="row">
+            <div class="row">
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="yourprofit"></span></h3>
+                          <h3 class="mb-0"><span id="ltc"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+1</p>
                         </div>
                       </div>
                       <div class="col-3">
-                        <div class="icon icon-box-danger">
+                        <div class="icon icon-box-success ">
+                          <span class="mdi mdi-account icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">LTC Price</h6>
+                    <h3 class="mb-0"><span id="fldgprice"></span></h3>
+
+                    <a href="https://coinmarketcap.com/currencies/litecoin/" target="_blank" title="Website">More Data</Datag></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0"><span id="ltcrevperday"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-success">
                           <span class="mdi mdi-currency-usd icon-item"></span>
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Your Profits</h6>
-                    <a href="person.html" title="Website">View Summary</a>
+                    <h6 class="text-muted font-weight-normal">Average Daily Revenue</h6>
+                    <a href="https://www.litecoinpool.org/api?format=html&api_key=f429b3b5537c9608f908e69eec3fb2ba&fbclid=IwAR01zwTjtOVkiIuqp3GwdTaBYLzsvKVYP_uB7nWK5B7zm-x6L9MqVt1J6lw" target="_blank" title="Website">Current Status</a>
                   </div>
                 </div>
               </div>
-              <!--Your Balance Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="fldgbalance"></span></h3>
-                          <p class="text-success ms-2 mb-0 font-weight-medium"><span id="fldgprice"></p>
+                          <h3 class="mb-0"><span id="costperday"></span></h3>
+                          <p class="text-danger ms-2 mb-0 font-weight-medium">0.0%</p>
                         </div>
                       </div>
                       <div class="col-3">
@@ -398,20 +403,41 @@
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Your Wallet</h6>
-                    <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b#balances" title="Website">View Balances</a>
-                    <a href="https://app.honeyswap.org/#/swap" title="Website">Buy on Honeyswap</a>
+                    <h6 class="text-muted font-weight-normal">Daily Electric Cost</h6>
+                    <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b#balances" target="_blank" title="Website">View Balances</a>
                   </div>
                 </div>
               </div>
-            <!--Fledge Fly Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="numnfts"></span></h3>
+                          <h3 class="mb-0">$3.50</h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-success ">
+                          <span class="mdi mdi-format-list-bulleted icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">Daily Heat Savings</h6>
+                    <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b" target="_blank" title="Website">View Heat Bill</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+             <div class="row">
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h6 class="mb-0"><span id="totalprofit"></span></h6>
                           <p class="text-success ms-2 mb-0 font-weight-medium">+1</p>
                         </div>
                       </div>
@@ -421,139 +447,68 @@
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Your Tokens</h6>
-                    <a href="https://flies.fldg.io" title="Website">Buy a Fly</a>
+                    <h6 class="text-muted font-weight-normal">Profit to Date</h6>
+                    <a href="https://flies.fldg.io" target="_blank" title="Website">View Smart Contract</a>
                   </div>
                 </div>
               </div>
-              <!--Your NFT Value Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p>
-                          <h3 class="mb-0"><span id="yournftbalance"></span></h3>
+                          <h3 class="mb-0">2</h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
                         </div>
                       </div>
                       <div class="col-3">
-                        <div class="icon icon-box-success ">
-                          <span class="mdi mdi-format-list-bulleted icon-item"></span>
+                        <div class="icon icon-box-success">
+                          <span class="mdi mdi-account icon-item"></span>
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">NFTs' Value</h6>
-                    <a href="https://polygonscan.com/address/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19" title="Website">View Contract Activity</a>
+                    <h6 class="text-muted font-weight-normal">Trust Tokens Issued</h6>
+                    <a href="https://polygonscan.com/token/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19#balances" target="_blank" title="Website">View Holders</a>
                   </div>
                 </div>
               </div>
-            </div>              
-            <!--DAO Widgt-->
-            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="d-flex align-items-center align-self-start">
-                        <h3 class="mb-0"><span id="daomembers"></span></h3>
-                        <p class="text-success ms-2 mb-0 font-weight-medium">+1</p>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="icon icon-box-success ">
-                        <span class="mdi mdi-account icon-item"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <h6 class="text-muted font-weight-normal">DAO Membership</h6>
-          <!-- add your in the DAO  or Join the DAO depending on status -->
-                  <a href="https://snapshot.org/#/thefledge.eth" title="Website">You are a Member</a>
-                </div>
-              </div>
-            </div>
-            <!--Your LP Widget-->
-            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="d-flex align-items-center align-self-start">
-                        <h3 class="mb-0">Your LPs</h3>
-                        <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="icon icon-box-success">
-                        <span class="mdi mdi-account icon-item"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <h6 class="text-muted font-weight-normal">FLY owners</h6>
-                  <a href="https://polygonscan.com/token/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19#balances" title="Website">View Holders</a>
-                </div>
-              </div>
-            </div>
-            <!--Your Transactions Widget-->
-            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="d-flex align-items-center align-self-start">
-                        <h3 class="mb-0">14</h3>
-                        <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="icon icon-box-success ">
-                        <span class="mdi mdi-format-list-bulleted icon-item"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <h6 class="text-muted font-weight-normal">Your transactions</h6>
-                  <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b" title="Website">View Transactions</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--Your Transactions Widget-->
             <div class="row">
               <div class="col-md-3 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Credentials</h4>
+                    <h4 class="card-title">Profit Distribution</h4>
                     <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-left text-xl-left">
-                        <h6 class="mb-1">Fledge Flies  </h6>
-                        
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">Energy</h6>
                       </div>
-                      <!--Need a new class for NFT presentation-->
-                      <div class="preview-icon">
-                          <a href="https://flies.fldg.io"><br/><img src="assets/images/samples/FledgeFly10.png" alt="Open the Studio" style="width:42px;height:42px;"></a>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="energyproject"></span></h6>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-left text-xl-left">
-                        <h6 class="mb-1">FMG NFKey</h6>
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">Property</h6>
                       </div>
-                      <div class="preview-icon">
-                      </div>
-                      <br/>
-                        <a href="https://lock.fldg.io"><br/><img src="assets/images/samples/IMG_3674.jpeg" alt="Open the Studio" style="width:42px;height:42px;"></a>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-left text-xl-left">
-                        <h6 class="mb-1">Fledge NFKey</h6>
-                      </div>
-                      <div class="preview-icon">
-                        <a href="https://lock.fldg.io"><br/><img src="assets/images/samples/IMG_3677.jpeg" alt="Open the Studio" style="width:42px;height:42px;"></a>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="propertyproject"></span></h6>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-left text-xl-left">
-                        <h6 class="mb-1">Fledge Holder</h6>
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">DAO General</h6>
+                      </div>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="daoproject"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">Responsible Persons</h6>
+                      </div>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="tokenholders"></span></h6>
                       </div>
                     </div>
                   </div>
@@ -562,37 +517,77 @@
               <div class="col-md-3 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Credential Deficit</h4>
+                    <h4 class="card-title">Overview</h4>
                     <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-left text-xl-left">
-                        <h6 class="mb-1">Energy Projects</h6>
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">Total Revenue</h6>
                       </div>
                       <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">Battery Workshop</h6>
+                        <h6 class="mb-0"><span id="totalrevenue"></span></h6>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Thing Projects</h6>
+                        <h6 class="mb-1">Total Savings</h6>
                       </div>
                       <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">2 successful prints</h6>
+                        <h6 class="mb-0"><span id="totalsavings"></span></h6>
                       </div>
                     </div>
-                    <a href="https://www.facebook.com/groups/2768363603310053" title="Website">Have an Idea?</a>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">Total Cost</h6>
+                      </div>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="totalcost"></span></h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">Total Profit</h6>
+                      </div>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="mb-0"><span id="totalsprofit"></span></h6>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
-            
               <div class="col-md-3 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Your Liquidity Pools</h4>
+                    <h4 class="card-title">Smart Contract</h4>
+                    <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Matic</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$236</h6>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">FLDG</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h6 class="font-weight-bold mb-0">$593</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Transfer</h4>
                     <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Quickswap</h6>
+                        <h6 class="mb-1">Transfer to Project</h6>
                       </div>
                       <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                         <h6 class="font-weight-bold mb-0">$236</h6>
@@ -600,34 +595,10 @@
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Honeyswap</h6>
+                        <h6 class="mb-1">Tranfer to People</h6>
                       </div>
                       <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                         <h6 class="font-weight-bold mb-0">$593</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Bounties</h4>
-                    <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Clean the fridge</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">15</h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Paint the Ramp</h6>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">60</h6>
                       </div>
                     </div>
                   </div>
@@ -641,7 +612,7 @@
           <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
               <!--<span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2022</span>-->
-              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><a href="https://dashboard.fldg.io" target="_blank">DAO Home</a> </span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><a href="https://fldg.io" target="_blank">fldg.io</a> </span>
               <button onClick="getPrice()">click</button>
             </div>
           </footer>
