@@ -110,8 +110,9 @@
           const tokenBalance = balances.filter(token => token.name === 'FledgeCoin');
           //user's fldg balance is below - you need to display this and convert it
           console.log(tokenBalance[0].balance);
-
-          const fldgbalanceget = Number.parseFloat(balance.balance).toFixed(2);
+          const fldgbalanceget = tokenBalance[0].balance;
+          console.log(fldgbalanceget);
+//          const fldgbalanceget = Number.parseFloat(balance.balance).toFixed(2);
           const fldgbalanceget1 = fldgbalanceget / 1000000000000000000;
       
       console.log("calculating USD Balance");
