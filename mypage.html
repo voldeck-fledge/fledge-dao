@@ -98,26 +98,21 @@
       
       console.log("getting balance");
 
-      const currentUser = Moralis.User.current();
-      const useraddress = currentUser.attributes.ethAddress;
+          const currentUser = Moralis.User.current();
+          const useraddress = currentUser.attributes.ethAddress;
+          const erc20Contract = '0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b';
 
-//how do we filter for FLDG      
-      const options = {
-          chain: "polygon",
-          address:useraddress,
-          Sympol: "FLDG",
-          token_address:"0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
-      };
-      const balance = await Moralis.Web3API.account.getNativeBalance(options);
+          var balance = "";
 
-      console.log(balance);
-//this needs to be converted to a better format
-//this is returning matic
-      const fldgbalanceget = Number.parseFloat(balance.balance).toFixed(2);
-      const fldgbalanceget1 = fldgbalanceget / 1000000000000000000;
-//      console.log(fldgbalanceget);
-//need to get the variable to pass down here
-//      const fldgbalance = usdprice * fldgbalanceget;
+          const chainOptions = { chain: "matic" }
+          const balances = await Moralis.Web3API.account.getTokenBalances(chainOptions);
+          const tokenAddress =  "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b"; // FLDG Contract Address
+          const tokenBalance = balances.filter(token => token.name === 'FledgeCoin');
+          //user's fldg balance is below - you need to display this and convert it
+          console.log(tokenBalance[0].balance);
+
+          const fldgbalanceget = Number.parseFloat(balance.balance).toFixed(2);
+          const fldgbalanceget1 = fldgbalanceget / 1000000000000000000;
       
       console.log("calculating USD Balance");
       console.log(fldgbalanceget1);
