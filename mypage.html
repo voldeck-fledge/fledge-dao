@@ -32,7 +32,6 @@
         const serverUrl = "https://9tyik5gpl7u7.usemoralis.com:2053/server";
         const appId = "YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM";
         Moralis.start({ serverUrl, appId });
-//pasted
         function login() {
            // var user = Moralis.Web3.authenticate();
         //if success enable lockbutton
@@ -42,7 +41,10 @@
     async function checkConn() {
         await Moralis.Web3.authenticate();
         console.log("logged in");
+      console.log("check NFTs");
         checkNFT();
+      console.log("get FLDG Balance");
+        getFLDGBalance();
     }
     
     async function logOut() {
@@ -57,33 +59,27 @@
         
         const polygonNFTs = await Moralis.Web3.getNFTs(options);
         const nftCount = await Moralis.Web3.getNFTsCount(options);
-        const fldgbalanceget =  3000; 
-        //await Moralis.Web3.getToken(options);
+
         const profit = 93;
         const daomember = true;
         const flyprice = 5;
         const getnftbalance = nftCount * flyprice;
 
         console.log(nftCount);
-        console.log(fldgbalance);
         console.log(profit);
         console.log(daomember);
         console.log(getnftbalance);
 
-      
-        //console.log(polygonNFTs);
-        //console.log(polygonNFTs[0].token_address);
         document.getElementById('numnfts').innerHTML = '<strong>' + nftCount + '</strong>';
-        document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget + '</strong>';
         document.getElementById('yourprofit').innerHTML = '<strong>' + profit + '</strong>';
         document.getElementById('daomember').innerHTML = '<strong>' + daomember  + '</strong>';
         document.getElementById('yournftbalance').innerHTML = '<strong>' + getnftbalance  + '</strong>';
 
-        //token_address the contract address, e.g. for trust tokens?
+//token_address the contract address, e.g. for trust tokens?
         
         var count = 0;
         for(var i = 0; i < polygonNFTs.length; ++i){
-    //is this the contract address?
+//need to retrieve by the different types of NFTs / collections
             if(polygonNFTs[i].token_address == '0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19')
                 count++;
         }
@@ -94,10 +90,41 @@
         else {
             console.log("No Trust Tokens");
         }
-
         
     }
-    
+
+    //Get FLDG Balance for current user
+    async function getFLDGBalance(){
+      
+      console.log("getting balance");
+
+      const currentUser = Moralis.User.current();
+      const useraddress = currentUser.attributes.ethAddress;
+
+//how do we filter for FLDG      
+      const options = {
+          chain: "polygon",
+          address:useraddress,
+          Sympol: "FLDG",
+          token_address:"0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
+      };
+      const balance = await Moralis.Web3API.account.getNativeBalance(options);
+
+      console.log(balance);
+//this needs to be converted to a better format
+//this is returning matic
+      const fldgbalanceget = Number.parseFloat(balance.balance).toFixed(2);
+      const fldgbalanceget1 = fldgbalanceget / 1000000000000000000;
+//      console.log(fldgbalanceget);
+//need to get the variable to pass down here
+//      const fldgbalance = usdprice * fldgbalanceget;
+      
+      console.log("calculating USD Balance");
+      console.log(fldgbalanceget1);
+
+      document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget1 + '</strong>';
+      }
+
     //Get the FLDG Price    
     async function getPrice() {
         const options = {
@@ -106,9 +133,11 @@
           exchange: "Quickswap",
         };
         const price = await Moralis.Web3API.token.getTokenPrice(options);
+        console.log(price);
 
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
+        console.log(usdprice);
         const daomembersget = 45;
         
         //display price
@@ -377,7 +406,8 @@
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">Your Profits</h6>
-                    <a href="person.html" title="Website">View Summary</a>
+<!--would like to be able to pu an addresss in here -->
+                    <a href="person.html" title="Check an Address">View Summary</a>
                   </div>
                 </div>
               </div>
@@ -399,8 +429,9 @@
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">Your Wallet</h6>
-                    <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b#balances" title="Website">View Balances</a>
-                    <a href="https://app.honeyswap.org/#/swap" title="Website">Buy on Honeyswap</a>
+                    <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b#balances" target="_blank" title="View on polygonscan">View Balances</a>
+                    <br/>
+                    <a href="https://app.honeyswap.org/#/swap" target="_blank" title="Honewswap">Buy on Honeyswap</a>
                   </div>
                 </div>
               </div>
@@ -422,7 +453,7 @@
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">Your Tokens</h6>
-                    <a href="https://flies.fldg.io" title="Website">Buy a Fly</a>
+                    <a href="https://flies.fldg.io" target="_blank" title="Website">Buy a Fly</a>
                   </div>
                 </div>
               </div>
@@ -444,7 +475,7 @@
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">NFTs' Value</h6>
-                    <a href="https://polygonscan.com/address/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19" title="Website">View Contract Activity</a>
+                    <a href="https://polygonscan.com/address/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19" target="_blank" title="See your NFTs">View Contract Activity</a>
                   </div>
                 </div>
               </div>
@@ -468,7 +499,7 @@
                   </div>
                   <h6 class="text-muted font-weight-normal">DAO Membership</h6>
           <!-- add your in the DAO  or Join the DAO depending on status -->
-                  <a href="https://snapshot.org/#/thefledge.eth" title="Website">You are a Member</a>
+                  <a href="https://snapshot.org/#/thefledge.eth" target="_blank" title="Go to Snapshot">You are a Member</a>
                 </div>
               </div>
             </div>
@@ -490,7 +521,7 @@
                     </div>
                   </div>
                   <h6 class="text-muted font-weight-normal">FLY owners</h6>
-                  <a href="https://polygonscan.com/token/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19#balances" title="Website">View Holders</a>
+                  <a href="https://polygonscan.com/token/0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19#balances" target="_blank" title="Website">View Holders</a>
                 </div>
               </div>
             </div>
@@ -512,7 +543,7 @@
                     </div>
                   </div>
                   <h6 class="text-muted font-weight-normal">Your transactions</h6>
-                  <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b" title="Website">View Transactions</a>
+                  <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b" target="_blank" title="Website">View Transactions</a>
                 </div>
               </div>
             </div>
@@ -531,7 +562,7 @@
                       </div>
                       <!--Need a new class for NFT presentation-->
                       <div class="preview-icon">
-                          <a href="https://flies.fldg.io"><br/><img src="assets/images/samples/FledgeFly10.png" alt="Open the Studio" style="width:42px;height:42px;"></a>
+                          <a href="https://flies.fldg.io" target="_blank"><br/><img src="assets/images/samples/FledgeFly10.png" alt="Open the Studio" style="width:42px;height:42px;"></a>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -541,14 +572,14 @@
                       <div class="preview-icon">
                       </div>
                       <br/>
-                        <a href="https://lock.fldg.io"><br/><img src="assets/images/samples/IMG_3674.jpeg" alt="Open the Studio" style="width:42px;height:42px;"></a>
+                        <a href="https://lock.fldg.io" target="_blank"><br/><img src="assets/images/samples/IMG_3674.jpeg" alt="Open the Studio" style="width:42px;height:42px;"></a>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-left text-xl-left">
                         <h6 class="mb-1">Fledge NFKey</h6>
                       </div>
                       <div class="preview-icon">
-                        <a href="https://lock.fldg.io"><br/><img src="assets/images/samples/IMG_3677.jpeg" alt="Open the Studio" style="width:42px;height:42px;"></a>
+                        <a href="https://lock.fldg.io" target="_blank"><br/><img src="assets/images/samples/IMG_3677.jpeg" alt="Open the Studio" style="width:42px;height:42px;"></a>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -580,7 +611,7 @@
                         <h6 class="font-weight-bold mb-0">2 successful prints</h6>
                       </div>
                     </div>
-                    <a href="https://www.facebook.com/groups/2768363603310053" title="Website">Have an Idea?</a>
+                    <a href="https://www.facebook.com/groups/2768363603310053" target="_blank" title="Website">Have an Idea?</a>
                   </div>
                 </div>
               </div>
