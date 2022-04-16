@@ -33,15 +33,17 @@
         const appId = "YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM";
         Moralis.start({ serverUrl, appId });
         function login() {
-           // var user = Moralis.Web3.authenticate();
-        //if success enable lockbutton
+        //if success enable lockbutton - this is not true on this page
             checkConn();
         }
     //
     async function checkConn() {
         await Moralis.Web3.authenticate();
         console.log("logged in");
+        console.log("count NFTs")
         checkNFT();
+        console.log("get FLDG Balance");
+        getFLDGBalance();
     }
     
     async function logOut() {
@@ -56,8 +58,6 @@
         
         const polygonNFTs = await Moralis.Web3.getNFTs(options);
         const nftCount = await Moralis.Web3.getNFTsCount(options);
-        const fldgbalanceget =  3000; 
-        //await Moralis.Web3.getToken(options);
         const profit = 93;
         const daomember = true;
         const flyprice = 5;
@@ -65,14 +65,11 @@
 
         console.log("connected")
         console.log(nftCount);
-        console.log(fldgbalanceget);
         console.log(profit);
         console.log(daomember);
         console.log(getnftbalance);
 
         document.getElementById('numnfts').innerHTML = '<strong>' + nftCount + '</strong>';
-        document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget + '</strong>';
-
 
         console.log("variablesset")
         console.log(nftCount)
@@ -96,15 +93,36 @@
         
     }
 
+    Moralis.start({ serverUrl, appId });
 
-//    <script>
-    //Connect with MetaMask
-        //Moralis.initialize("YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM");
-        //Moralis.serverURL = 'https://9tyik5gpl7u7.usemoralis.com:2053/server';
-//        const serverUrl = "https://9tyik5gpl7u7.usemoralis.com:2053/server";
-//        const appId = "YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM";
-        
-        Moralis.start({ serverUrl, appId });
+    //Get FLDG Balance for current user
+    async function getFLDGBalance(){
+      
+      console.log("getting balance");
+
+          const currentUser = Moralis.User.current();
+          const useraddress = currentUser.attributes.ethAddress;
+          const erc20Contract = '0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b';
+
+          var balance = "";
+
+          const chainOptions = { chain: "matic" }
+          const balances = await Moralis.Web3API.account.getTokenBalances(chainOptions);
+          const tokenAddress =  "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b"; // FLDG Contract Address
+          const tokenBalance = balances.filter(token => token.name === 'FledgeCoin');
+          console.log(tokenBalance[0].balance);
+          const fldgbalanceget = tokenBalance[0].balance;
+          console.log(fldgbalanceget);
+          const fldgbalanceget1 = Number.parseFloat(fldgbalanceget / 1000000000000000000).toFixed(2);
+      
+      console.log("calculating USD Balance");
+      console.log(fldgbalanceget1);
+
+      document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget1 + '</strong>';
+
+      }
+
+
      //This is getting FLDG at this point
     async function getPrice() {
         const options = {
@@ -119,16 +137,24 @@
         const maticprice = 1.63;
         const fliesbalancematic = 15;
         const fliessold = 270;
-        const nummembers = 46;
-        const fldghldrs = 89;
-        const fldgtrans = 236;
+        const nummembers = 48;
+        const fldghldrs = 91;
+        const fldgtrans = 240;
         const fliesmnt = 272;
         const flieshldrs = 50;
+        const fliesflr = 0005;
+        const hsnbal = 705.36;
+        const sushibal = 88.04;
 
+        const univ2bal = 714.06;
+        console.log("get univ2balance");
+        console.log(univ2bal);
 
-        //display price
+        console.log("get fliesbalance");
+        console.log(maticprice*fliessold);
+
+        //these are accurate pulls for the chain
         document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
-
 
         //set the contstants above and put transforms anc calculations here or up there - need to decide
         document.getElementById('daomembers').innerHTML = '<strong>' + nummembers + '</strong>';
@@ -136,18 +162,19 @@
         document.getElementById('fldgtransactions').innerHTML = '<strong>' + fldgtrans + '</strong>';
         document.getElementById('fliesminted').innerHTML = '<strong>' + fliesmnt + '</strong>';
         document.getElementById('fliesholders').innerHTML = '<strong>' + flieshldrs + '</strong>';
-        document.getElementById('fliesfloor').innerHTML = '<strong>' + ".005" + '</strong>';
-        document.getElementById('fliesbalance').innerHTML = '<strong>' + "$" + maticprice * fliesbalancematic + '</strong>';
-        document.getElementById('hsnbalance').innerHTML = '<strong>' + "$764.45" + '</strong>';
-        document.getElementById('univ2balance').innerHTML = '<strong>' + "$915.49" + '</strong>';
-        document.getElementById('slpbalance').innerHTML = '<strong>' + "$113.35" + '</strong>';
+        document.getElementById('fliesfloor').innerHTML = '<strong>' + fliesflr + '</strong>';
+        document.getElementById('univ2balance').innerHTML = '<strong>' + univ2bal + '</strong>';
+
+        document.getElementById('hsnbalance').innerHTML = '<strong>' + "$" + hsnbal + '</strong>';
+        document.getElementById('slpbalance').innerHTML = '<strong>' + sushibal + '</strong>';
         document.getElementById('gnosisfldg').innerHTML = '<strong>' + "5,239,108" + '</strong>';
         document.getElementById('gnosismatic').innerHTML = '<strong>' + "$" + maticprice * .20 + '</strong>';
         document.getElementById('gnosishsn').innerHTML = '<strong>' + "0" + '</strong>';
         document.getElementById('gnosisslp').innerHTML = '<strong>' + "74.00" + '</strong>';
         document.getElementById('gnosisuniv2').innerHTML = '<strong>' + "600.07" + '</strong>';
-        document.getElementById('project3dprinter1').innerHTML = '<strong>' + "$" + Number.parseFloat(usdprice * 5 ).toFixed(2)+ '</strong>';
-        document.getElementById('profitflies').innerHTML = '<strong>' + "$" + maticprice * fliessold * 5 + '</strong>';
+        document.getElementById('project3dprinter1').innerHTML = '<strong>' + usdprice + '</strong>';
+        document.getElementById('profitflies').innerHTML = '<strong>' + fliessold + '</strong>';
+        document.getElementById('fliesbalance').innerHTML = '<strong>' + fliesbalancematic + '</strong>';
 
         getToken();
       }
@@ -385,28 +412,61 @@
                             <button onclick="login()" id="walletbutton" type="button" class="btn btn-primary">Connect Wallet</button>
                           </div>
                         </div>
-                        <div class="col-3">
-                          <div class="icon icon-box-danger">
-                            <span class="mdi mdi-currency-usd icon-item"></span>
-                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!--FLDG Price Widget-->
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0"><span id="fldgbalance"></span></h3>
                         </div>
-                        <div class="col-9">
-                          <div class="d-flex align-items-center align-self-start">
-                            <h3 class="mb-0"><span id="numnfts"></span></h3>
-                            <h3 class="text-muted font-weight-normal">NFTs</h6>
-                          </div>
+                        <div class="d-flex align-items-center align-self-start">
+                          <h6 class="text-muted font-weight-normal">FLDG</h6>
                         </div>
-                        <div class="col-9">
-                          <div class="d-flex align-items-center align-self-start">
-                            <h3 class="mb-0"><span id="fldgbalance"></span></h3>
-                            <h3 class="text-muted font-weight-normal">FLDG</h6>
-                          </div>
+
+                      </div>
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0"><span id="fldgprice"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-success">
+                          <span class="mdi mdi-currency-usd icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">FLDG price</h6>
+                    <a href="mypage.html" title="Connect your Wallet">Your Page</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                      <div class="col-3">
+                        <div class="icon icon-box-danger">
+                          <span class="mdi mdi-currency-usd icon-item"></span>
+                        </div>
+                      </div>
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="text-muted font-weight-normal">NFTs: </h3>
+                          <h3 class="mb-0"><span id="numnfts"></span></h3>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
               <!--DAO Member Widget-->
+              <div class="row">
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -430,29 +490,7 @@
                   </div>
                 </div>
               </div>
-              <!--FLDG Price Widget-->
-              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-9">
-                        <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="fldgprice"></span></h3>
-                          <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="icon icon-box-success">
-                          <span class="mdi mdi-currency-usd icon-item"></span>
-                        </div>
-                      </div>
-                    </div>
-                    <h6 class="text-muted font-weight-normal">FLDG price</h6>
-                    <a href="mypage.html" title="Connect your Wallet">Your Page</a>
-                  </div>
-                </div>
-              </div>
-             <!--FLDG Holders Widget-->
+              <!--FLDG Holders Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -471,32 +509,6 @@
                     </div>
                     <h6 class="text-muted font-weight-normal">FLDG holders</h6>
                     <a href="https://polygonscan.com/token/0x5118aec3afcca3f1e21733ee9c88bb800afe6f7b#balances" target="_blank" title="Website">View Balances</a>
-                  </div>
-                </div>
-              </div>
-            <!--Flies Minted Widget-->
-             <div class="row">
-              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-9">
-                        <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="fliesminted"></span></h3>
-                          <p class="text-success ms-2 mb-0 font-weight-medium">+3</p>
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="icon icon-box-success ">
-                          <span class="mdi mdi-bee icon-item"></span>
-                        </div>
-                      </div>
-                    </div>
-                    <h6 class="text-muted font-weight-normal">FLY NFTs minted</h6>
-                    <a href="https://flies.fldg.io" target="_blank" title="flies.fldg.io">Buy a Fly</a>
-                    <br/>
-
-                    <a href="https://opensea.io/collection/fledgeflies" target="_blank" title="Gp to opensea">View on OpenSea</a>
                   </div>
                 </div>
               </div>
@@ -545,14 +557,38 @@
               </div>
             </div>
           </div>
-              <!--Flies Balance Widget-->
+            <!--Flies Minted Widget-->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="fliesbalance"></span></h3>
+                          <h3 class="mb-0"><span id="fliesminted"></span></h3>
+                          <p class="text-success ms-2 mb-0 font-weight-medium">+3</p>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-success ">
+                          <span class="mdi mdi-bee icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">FLY NFTs minted</h6>
+                    <a href="https://flies.fldg.io" target="_blank" title="flies.fldg.io">Buy a Fly</a>
+                    <br/>
+                    <a href="https://opensea.io/collection/fledgeflies" target="_blank" title="Go to opensea">View on OpenSea</a>
+                  </div>
+                </div>
+              </div>
+          <!--Flies Balance Widget-->
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                            <h3 class="mb-0"><span id="fliesbalance"></span></h3>
                           <p class="text-success ms-2 mb-0 font-weight-medium">+15</p>
                         </div>
                       </div>
@@ -612,7 +648,6 @@
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                         <h6 class="mb-0"><span id="project3dprinter1"></span></h6>
-
                       </div>
                     </div>
                   </div>
