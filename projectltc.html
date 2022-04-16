@@ -68,8 +68,43 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
     //console.log(data.Markets[0][3520]['Label']);
     let obj = data.Markets[0].filter(item => item.Label === "LTC/USD");
     let ltcprice = obj[0].Price;
+    console.log("get ltcprice");
     console.log(ltcprice);
-    document.getElementById("ltcprice").innerHTML = ltcprice
+    const usdprice = Number.parseFloat(ltcprice).toFixed(2);
+    console.log(usdprice);
+    const numdays = 45;
+    //this should not be coin specific
+    const ltcperday = .112;
+    const eleccostday = 14.36;
+    const heatsavings = 3.50;
+
+    console.log("get usdperday");
+    const usdperday = usdprice * ltcperday;
+    console.log(usdperday);
+
+    console.log("get totalrevenuecalc");
+    const totalrevenuecalc = usdperday * numdays;
+    console.log(totalrevenuecalc);
+
+    const energyprojectpercent = .25;
+    const propertyprojectpercent = .25;
+    const daoprojectpercent = .25;
+    const resppersonprojectpercent = .25;
+    const numresponsparty = 2;
+
+    document.getElementById("ltcprice").innerHTML = usdprice;
+    document.getElementById('ltcrevperday').innerHTML = '<strong>' + Number.parseFloat(usdprice * ltcperday).toFixed(2) + '</strong>';
+    document.getElementById('costperday').innerHTML = '<strong>' + eleccostday + '</strong>';
+    document.getElementById('totalrevenue').innerHTML = '<strong>' + Number.parseFloat(totalrevenuecalc).toFixed(2) + '</strong>';
+    document.getElementById('totalcost').innerHTML = '<strong>' + Number.parseFloat(eleccostday * numdays).toFixed(2) + '</strong>';
+    document.getElementById('totalsavings').innerHTML = '<strong>' + Number.parseFloat(heatsavings * numdays).toFixed(2) + '</strong>';
+    document.getElementById('totalsprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
+    document.getElementById('totalprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
+    document.getElementById('energyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * energyprojectpercent).toFixed(2) + '</strong>';
+    document.getElementById('propertyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * propertyprojectpercent).toFixed(2) + '</strong>';
+    document.getElementById('daoproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * daoprojectpercent).toFixed(2) + '</strong>';
+    document.getElementById('tokenholders').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * resppersonprojectpercent / numresponsparty).toFixed(2) + '</strong>';
+
 });
 
         const serverUrl = "https://9tyik5gpl7u7.usemoralis.com:2053/server";
@@ -84,42 +119,15 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
         };
 
         const price = await Moralis.Web3API.token.getTokenPrice(options);
-
+        console.log(price);
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
+        console.log(usdprice);
         //this should not be coin specific
-//        const ltc = 134.21;
-        const numdays = 38;
-        //this should not be coin specific
-        const ltcperday = .112;
-        const eleccostday = 14.36;
-        const heatsavings = 3.50;
-        const usdperday = ltcprice * ltcperday;
-        const totalrevenuecalc = usdperday * numdays;
-        const energyprojectpercent = .25;
-        const propertyprojectpercent = .25;
-        const daoprojectpercent = .25;
-        const resppersonprojectpercent = .25;
-        const numresponsparty = 2;
-        
-
+    
         //display price
         document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
         
-        //set the contstants for now
-        //should not be coin specific
-        document.getElementById('ltcprice').innerHTML = '<strong>' + ltc + '</strong>';
-        document.getElementById('ltcrevperday').innerHTML = '<strong>' + Number.parseFloat(ltc * ltcperday).toFixed(2) + '</strong>';
-        document.getElementById('costperday').innerHTML = '<strong>' + eleccostday + '</strong>';
-        document.getElementById('totalrevenue').innerHTML = '<strong>' + Number.parseFloat(totalrevenuecalc).toFixed(2) + '</strong>';
-        document.getElementById('totalcost').innerHTML = '<strong>' + Number.parseFloat(eleccostday * numdays).toFixed(2) + '</strong>';
-        document.getElementById('totalsavings').innerHTML = '<strong>' + Number.parseFloat(heatsavings * numdays).toFixed(2) + '</strong>';
-        document.getElementById('totalsprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
-        document.getElementById('totalprofit').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays).toFixed(2) + '</strong>';
-        document.getElementById('energyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * energyprojectpercent).toFixed(2) + '</strong>';
-        document.getElementById('propertyproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * propertyprojectpercent).toFixed(2) + '</strong>';
-        document.getElementById('daoproject').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * daoprojectpercent).toFixed(2) + '</strong>';
-        document.getElementById('tokenholders').innerHTML = '<strong>' + Number.parseFloat((usdperday + heatsavings - eleccostday) * numdays * resppersonprojectpercent / numresponsparty).toFixed(2) + '</strong>';
         
         getToken();
       }
@@ -361,8 +369,6 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">LTC Price</h6>
-                    <h3 class="mb-0"><span id="fldgprice"></span></h3>
-
                     <a href="https://coinmarketcap.com/currencies/litecoin/" target="_blank" title="Website">More Data</Datag></a>
                   </div>
                 </div>
