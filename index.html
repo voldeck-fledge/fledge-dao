@@ -114,11 +114,14 @@
           const fldgbalanceget = tokenBalance[0].balance;
           console.log(fldgbalanceget);
           const fldgbalanceget1 = Number.parseFloat(fldgbalanceget / 1000000000000000000).toFixed(2);
-      
+//need to pull the price out of the other function / make it a global variable         
+          const yourusbalance = fldgbalanceget1 *1.03;
+
       console.log("calculating USD Balance");
       console.log(fldgbalanceget1);
 
       document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget1 + '</strong>';
+      document.getElementById('urusbalance').innerHTML = '<strong>' + "$" + yourusbalance + '</strong>';
 
       }
 
@@ -134,24 +137,30 @@
 
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
+//automate this with molaris
         const maticprice = 1.63;
-        const fliesbalancematic = 15;
         const fliessold = 270;
         const nummembers = 48;
         const fldghldrs = 91;
         const fldgtrans = 240;
         const fliesmnt = 272;
         const flieshldrs = 50;
-        const fliesflr = 0005;
+        const fliesbalancematic = 15;
+
+        const fliesbalance = maticprice*fliessold*5;
+        console.log("get fliesbalance");
+        console.log(fliesbalance);
+
+        const fliesflr = 0.005;
+        console.log("get fliesflr");
+        console.log(fliesflr);
+
         const hsnbal = 705.36;
         const sushibal = 88.04;
 
         const univ2bal = 714.06;
         console.log("get univ2balance");
         console.log(univ2bal);
-
-        console.log("get fliesbalance");
-        console.log(maticprice*fliessold);
 
         //these are accurate pulls for the chain
         document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
@@ -162,19 +171,17 @@
         document.getElementById('fldgtransactions').innerHTML = '<strong>' + fldgtrans + '</strong>';
         document.getElementById('fliesminted').innerHTML = '<strong>' + fliesmnt + '</strong>';
         document.getElementById('fliesholders').innerHTML = '<strong>' + flieshldrs + '</strong>';
-        document.getElementById('fliesfloor').innerHTML = '<strong>' + fliesflr + '</strong>';
-        document.getElementById('univ2balance').innerHTML = '<strong>' + univ2bal + '</strong>';
-
+        document.getElementById('univ2balance').innerHTML = '<strong>' + "$" + univ2bal + '</strong>';
         document.getElementById('hsnbalance').innerHTML = '<strong>' + "$" + hsnbal + '</strong>';
-        document.getElementById('slpbalance').innerHTML = '<strong>' + sushibal + '</strong>';
+        document.getElementById('slpbalance').innerHTML = '<strong>' + "$" + sushibal + '</strong>';
         document.getElementById('gnosisfldg').innerHTML = '<strong>' + "5,239,108" + '</strong>';
         document.getElementById('gnosismatic').innerHTML = '<strong>' + "$" + maticprice * .20 + '</strong>';
-        document.getElementById('gnosishsn').innerHTML = '<strong>' + "0" + '</strong>';
-        document.getElementById('gnosisslp').innerHTML = '<strong>' + "74.00" + '</strong>';
-        document.getElementById('gnosisuniv2').innerHTML = '<strong>' + "600.07" + '</strong>';
-        document.getElementById('project3dprinter1').innerHTML = '<strong>' + usdprice + '</strong>';
-        document.getElementById('profitflies').innerHTML = '<strong>' + fliessold + '</strong>';
-        document.getElementById('fliesbalance').innerHTML = '<strong>' + fliesbalancematic + '</strong>';
+        document.getElementById('gnosishsn').innerHTML = '<strong>' + "$5" + '</strong>';
+        document.getElementById('gnosisslp').innerHTML = '<strong>' + "$74.00" + '</strong>';
+        document.getElementById('gnosisuniv2').innerHTML = '<strong>' + "$600.07" + '</strong>';
+        document.getElementById('project3dprinter1').innerHTML = '<strong>' + "$" + usdprice + '</strong>';
+        document.getElementById('profitflies').innerHTML = '<strong>' + "$" + fliessold * 5 * maticprice + '</strong>';
+        document.getElementById('fliesbalance').innerHTML = '<strong>' + fliesbalance + '</strong>';
 
         getToken();
       }
@@ -410,7 +417,10 @@
                         <div class="col-9">
                           <div>
                             <button onclick="login()" id="walletbutton" type="button" class="btn btn-primary">Connect Wallet</button>
+                            <h3 class="mb-0"><span id="urusbalance"></span></h3>
+
                           </div>
+                          
                         </div>
                       </div>
                     </div>

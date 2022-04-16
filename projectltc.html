@@ -72,7 +72,7 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
     console.log(ltcprice);
     const usdprice = Number.parseFloat(ltcprice).toFixed(2);
     console.log(usdprice);
-    const numdays = 45;
+    const numdays = 50;
     //this should not be coin specific
     const ltcperday = .112;
     const eleccostday = 14.36;
@@ -111,7 +111,9 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
         const appId = "YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM";
         Moralis.start({ serverUrl, appId });
      
-    async function getPrice() {
+
+      //Get FLDG Price
+       async function getPrice() {
         const options = {
           address: "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
           chain: "polygon",
@@ -122,13 +124,10 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
         console.log(price);
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
+        console.log("get usdprice");
         console.log(usdprice);
-        //this should not be coin specific
     
-        //display price
-        document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
-        
-        
+       
         getToken();
       }
       
@@ -444,7 +443,7 @@ $.getJSON('https://www.worldcoinindex.com/apiservice/v2getmarkets?key=aAyhMKpqPM
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h6 class="mb-0"><span id="totalprofit"></span></h6>
+                          <h3 class="mb-0"><span id="totalprofit"></span></h3>
                           <p class="text-success ms-2 mb-0 font-weight-medium">+1</p>
                         </div>
                       </div>
