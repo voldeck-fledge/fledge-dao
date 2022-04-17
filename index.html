@@ -115,13 +115,30 @@
           console.log(fldgbalanceget);
           const fldgbalanceget1 = Number.parseFloat(fldgbalanceget / 1000000000000000000).toFixed(2);
 //need to pull the price out of the other function / make it a global variable         
-          const yourusbalance = fldgbalanceget1 *1.03;
+          //const yourusbalance = fldgbalanceget1 *1.03;
 
       console.log("calculating USD Balance");
       console.log(fldgbalanceget1);
 
       document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget1 + '</strong>';
-      document.getElementById('urusbalance').innerHTML = '<strong>' + "$" + yourusbalance + '</strong>';
+      //document.getElementById('urusbalance').innerHTML = '<strong>' + "$" + yourusbalance + '</strong>';
+
+      //get FLDG price from Quickswap
+      const options = {
+          address: "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
+          chain: "polygon",
+          exchange: "Quickswap",
+        };
+        const price = await Moralis.Web3API.token.getTokenPrice(options);
+
+        //get price from array and round to 2 decimal places
+        const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
+        console.log ('FLDG = ' + usdprice);
+        console.log('My FLDG = ' + Number(usdprice*fldgbalanceget1));
+
+        const yourusbalance = Number.parseFloat(usdprice*fldgbalanceget1).toFixed(2);
+        
+        document.getElementById('urusbalance').innerHTML = '<strong>$' + yourusbalance + '</strong>';
 
       }
 
@@ -163,7 +180,7 @@
         console.log(univ2bal);
 
         //these are accurate pulls for the chain
-        document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
+        document.getElementById('fldgprice').innerHTML = '<strong>$' + usdprice + '</strong>';
 
         //set the contstants above and put transforms anc calculations here or up there - need to decide
         document.getElementById('daomembers').innerHTML = '<strong>' + nummembers + '</strong>';
