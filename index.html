@@ -67,8 +67,9 @@
         console.log(nftCount);
         console.log(profit);
         console.log(daomember);
+        console.log("getnftbalance")
         console.log(getnftbalance);
-
+        console.log("above should be nftbalance")
         document.getElementById('numnfts').innerHTML = '<strong>' + nftCount + '</strong>';
 
         console.log("variablesset")
@@ -89,8 +90,6 @@
         else {
             console.log("No Trust Tokens");
         }
-
-        
     }
 
     Moralis.start({ serverUrl, appId });
@@ -114,14 +113,12 @@
           const fldgbalanceget = tokenBalance[0].balance;
           console.log(fldgbalanceget);
           const fldgbalanceget1 = Number.parseFloat(fldgbalanceget / 1000000000000000000).toFixed(2);
-//need to pull the price out of the other function / make it a global variable         
-          //const yourusbalance = fldgbalanceget1 *1.03;
 
       console.log("calculating USD Balance");
       console.log(fldgbalanceget1);
 
       document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget1 + '</strong>';
-      //document.getElementById('urusbalance').innerHTML = '<strong>' + "$" + yourusbalance + '</strong>';
+
 
       //get FLDG price from Quickswap
       const options = {
@@ -142,8 +139,70 @@
 
       }
 
+      async function getBalanceProjects(){
+      
+      console.log("getting balance for projects");
 
-     //This is getting FLDG at this point
+          const useraddress = '0x985c0Fa941b5120B93FD2ba111485345EdD2bFe6'  
+          const erc20Contract = '0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b';
+
+          var balanceprojects = "";
+
+          const chainOptionsproj = { chain: "matic", address: useraddress };
+          const balancesproj = await Moralis.Web3API.account.getTokenBalances(chainOptionsproj);
+          const tokenAddress1 =  "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b"; // FLDG Contract Address
+          const tokenBalance1 = balancesproj.filter(token => token.name === 'FledgeCoin');
+          console.log(tokenBalance1[0].balance);
+          const projbalanceget = tokenBalance1[0].balance;
+          console.log(projbalanceget);
+          const Fldgmarketingget = Number.parseFloat(projbalanceget / 1000000000000000000).toFixed(2);
+
+          const Fldgeventsget = 80;  //0x46E52FC5085e11716bfbb55D14A72d9377b59723
+
+
+      console.log("getting marketing Balance");
+      console.log(Fldgmarketingget);
+
+      const Fldgdaoget = 750;   //0x8645dA1c030CD324222eaAF758baafE65FA71de0
+
+        const fmgget = 100;    //0xD80D21609349c7fF6a628F12a7180d2103D9D1f9
+
+        const pepoget = 2;    //0xf57aE07Cdd5025e331747c5fa35b5E06EE2Ec4E8
+
+        const Fldgfoodget = 150;    //0xabAa575677fB98083442083B6E510327757dB412 - phone
+                                    //0xaBa220D4D1022D3B1f7C6878AfD2E1E44E2503AA - computer
+
+
+        const Fldgstartupget = 2000; //0xd889d687F2D87799388A2498DA84276d10f5A36B
+        const Fldgartget = 300;     //0x1F1cB87434081613C35371183F1Ff91E36c13dF5
+        //need wallets
+        const fldgminestakegget = 212;  //the miners are going to a crypto.com wallet
+        const fldgenergyget = 250;     //0x9777a521EC9bC2adb80D0Ae32c51D643d392d581 
+        //need to set up awallets for below
+        const fldgpropertyget = 80; //0x834533aBF88E3d45f4CB807854d8136AC25Db4E3
+        const fldgnftget = 25;
+        const fldgmakerget = 4;
+
+      document.getElementById('fldgmarketing').innerHTML = '<strong>' + Fldgmarketingget + '</strong>';
+
+        //for project budgets
+        document.getElementById('fldgdao').innerHTML = '<strong>' + Fldgdaoget + '</strong>';
+        document.getElementById('fmg').innerHTML = '<strong>' + fmgget + '</strong>';
+        document.getElementById('pepo').innerHTML = '<strong>' + pepoget + '</strong>';
+        document.getElementById('fldgfood').innerHTML = '<strong>' + Fldgfoodget + '</strong>';
+        document.getElementById('fldgevents').innerHTML = '<strong>' + Fldgeventsget + '</strong>';
+        document.getElementById('fldgstartup').innerHTML = '<strong>' + Fldgstartupget + '</strong>';
+        document.getElementById('fldgart').innerHTML = '<strong>' + Fldgartget + '</strong>';
+        document.getElementById('fldgminestake').innerHTML = '<strong>' + fldgminestakegget + '</strong>';
+        document.getElementById('fldgenergy').innerHTML = '<strong>' + fldgenergyget + '</strong>';
+        document.getElementById('fldgproperty').innerHTML = '<strong>' + fldgpropertyget + '</strong>';
+        document.getElementById('fldgnft').innerHTML = '<strong>' + fldgnftget + '</strong>';
+        document.getElementById('fldgmaker').innerHTML = '<strong>' + fldgmakerget + '</strong>';
+
+
+      }
+
+    //This is getting FLDG at this point
     async function getPrice() {
         const options = {
           address: "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
@@ -154,16 +213,28 @@
 
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
-//automate this with molaris
-        const maticprice = 1.63;
+
+        //get project balances
+        //this should be the look up of a balance from an address - much like above but not with connect address, but constant maybe - need to decentralize
+        //need to find total wallet value not just fldg, matic, but eth and everything
+        //this is all moving up to getprojectbalances
+        
+
+
+        //live projects
+        const studiodoorprofitget = 25;
+        const ltcprofitget = 225;
+        const builddaoget = 0;
+
+        //automate this with molaris
+        const maticprice = 1.31;
         const fliessold = 270;
         const nummembers = 48;
-        const fldghldrs = 91;
-        const fldgtrans = 240;
+        const fldghldrs = 97;
+        const fldgtrans = 251;
         const fliesmnt = 272;
-        const flieshldrs = 50;
-        const fliesbalancematic = 15;
-
+        const flieshldrs = 51;
+        const fliesbalancematic = 25;
         const fliesbalance = maticprice*fliessold*5;
         console.log("get fliesbalance");
         console.log(fliesbalance);
@@ -179,8 +250,19 @@
         console.log("get univ2balance");
         console.log(univ2bal);
 
+        //gnosis interfaces
+        const gnosisfldgget = 5239108;
+        const gnosishsnget = 5;
+        const gnosisslpget = 74;
+        const gnosisuniv2get = 600;
+
         //these are accurate pulls for the chain
         document.getElementById('fldgprice').innerHTML = '<strong>$' + usdprice + '</strong>';
+
+        //live projects
+        document.getElementById('studiodoorprofit').innerHTML = '<strong>' + studiodoorprofitget + '</strong>';
+        document.getElementById('ltcprofit').innerHTML = '<strong>' + ltcprofitget + '</strong>';
+        document.getElementById('builddao').innerHTML = '<strong>' + builddaoget + '</strong>';
 
         //set the contstants above and put transforms anc calculations here or up there - need to decide
         document.getElementById('daomembers').innerHTML = '<strong>' + nummembers + '</strong>';
@@ -191,11 +273,11 @@
         document.getElementById('univ2balance').innerHTML = '<strong>' + "$" + univ2bal + '</strong>';
         document.getElementById('hsnbalance').innerHTML = '<strong>' + "$" + hsnbal + '</strong>';
         document.getElementById('slpbalance').innerHTML = '<strong>' + "$" + sushibal + '</strong>';
-        document.getElementById('gnosisfldg').innerHTML = '<strong>' + "5,239,108" + '</strong>';
+        document.getElementById('gnosisfldg').innerHTML = '<strong>' + gnosisfldgget + '</strong>';
         document.getElementById('gnosismatic').innerHTML = '<strong>' + "$" + maticprice * .20 + '</strong>';
-        document.getElementById('gnosishsn').innerHTML = '<strong>' + "$5" + '</strong>';
-        document.getElementById('gnosisslp').innerHTML = '<strong>' + "$74.00" + '</strong>';
-        document.getElementById('gnosisuniv2').innerHTML = '<strong>' + "$600.07" + '</strong>';
+        document.getElementById('gnosishsn').innerHTML = '<strong>' + "$" + gnosishsnget + '</strong>';
+        document.getElementById('gnosisslp').innerHTML = '<strong>' + "$" + gnosisslpget + '</strong>';
+        document.getElementById('gnosisuniv2').innerHTML = '<strong>' + "$" + gnosisuniv2get + '</strong>';
         document.getElementById('project3dprinter1').innerHTML = '<strong>' + "$" + usdprice + '</strong>';
         document.getElementById('profitflies').innerHTML = '<strong>' + "$" + fliessold * 5 * maticprice + '</strong>';
         document.getElementById('fliesbalance').innerHTML = '<strong>' + fliesbalance + '</strong>';
@@ -435,9 +517,7 @@
                           <div>
                             <button onclick="login()" id="walletbutton" type="button" class="btn btn-primary">Connect Wallet</button>
                             <h3 class="mb-0"><span id="urusbalance"></span></h3>
-
                           </div>
-                          
                         </div>
                       </div>
                     </div>
@@ -642,7 +722,7 @@
                         <a href="project.html" title="Website">Build a DAO</a>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$0</h6>
+                        <h6 class="mb-0"><span id="builddao"></span></h6>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -650,7 +730,7 @@
                         <a href="projectltc.html" title="Website">LTC Miners</a>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$112.35</h6>
+                        <h6 class="mb-0"><span id="ltcprofit"></span></h6>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -658,7 +738,7 @@
                         <a href="projectfmg.html" title="Website">Studio Door</a>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$25</h6>
+                        <h6 class="mb-0"><span id="studiodoorprofit"></span></h6>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -692,18 +772,51 @@
                     <!--should we create a safe for each project budget-->
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-left text-xl-left">
-                        <h6 class="mb-1">DAO Projects</h6>
+                        <h3 class="mb-1">Marketing</h3>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$750</h6>
+                        <br/>
+                        <h3 class="mb-0"><span id="fldgmarketing"></span></h3>
                       </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Start-up Micro Loans</h6>
+                      </div>
+                      <div class="d-flex align-items-center align-self-start">
+                        <h3 class="mb-0"><span id="fldgstartup"></span></h3>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">DAO Projects</h6>
+                      </div>
+                      <div class="d-flex align-items-center align-self-start">
+                        <h3 class="mb-0"><span id="fldgdao"></span></h3>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Fledge Food</h6>
+                      </div>
+                      <div class="d-flex align-items-center align-self-start">
+                        <h3 class="mb-0"><span id="fldgfood"></span></h3>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Fledge Events</h6>
+                        </div>
+                      <div class="d-flex align-items-center align-self-start">
+                        <h3 class="mb-0"><span id="fldgevents"></span></h3>
+                    </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-left text-xl-left">
                         <h6 class="mb-1">Energy Projects</h6>
                       </div>
-                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$25</h6>
+                      <div class="d-flex align-items-center align-self-start">
+                        <h3 class="mb-0"><span id="fldgenergy"></span></h3>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -711,7 +824,31 @@
                         <h6 class="mb-1">FMG Projects</h6>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$15</h6>
+                        <h3 class="mb-0"><span id="fmg"></span></h3>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Animals</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h3 class="mb-0"><span id="pepo"></span></h3>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Mining and Staking</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h3 class="mb-0"><span id="fldgminestake"></span></h3>
+                      </div>
+                    </div>
+                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-left text-xl-left">
+                        <h6 class="mb-1">Fledge Art</h6>
+                      </div>
+                      <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                        <h3 class="mb-0"><span id="fldgart"></span></h3>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -719,7 +856,7 @@
                         <h6 class="mb-1">Property Projects</h6>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$25</h6>
+                        <h3 class="mb-0"><span id="fldgproperty"></span></h3>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -727,7 +864,7 @@
                         <h6 class="mb-1">NFT Projects</h6>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$24</h6>
+                        <h3 class="mb-0"><span id="fldgnft"></span></h3>
                       </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -735,7 +872,7 @@
                         <h6 class="mb-1">Maker Projects</h6>
                       </div>
                       <div class="align-self-left flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$25</h6>
+                        <h3 class="mb-0"><span id="fldgmaker"></span></h3>
                       </div>
                     </div>
                   </div>
@@ -881,6 +1018,7 @@
         $( document ).ready(function() {
             console.log( "ready!" );
             getPrice();
+            getBalanceProjects();
         });
     </script>
     <!-- End custom js for this page -->

@@ -33,8 +33,97 @@
         const appId = "YpIP1OoTNtqjkfpt0dsEeGt9Ni9eVcu68cpua4HM";
         Moralis.start({ serverUrl, appId });
 
+        function login() {
+           // var user = Moralis.Web3.authenticate();
+           console.log("got price");
+           checkConn();
+        }
+    //
+    async function checkConn() {
+        await Moralis.Web3.authenticate();
+        console.log("logged in");
+        console.log("check NFTs");
+        checkNFT();
+        console.log("get FLDG Balance");
+        getFLDGBalance();
+    }
+
+    async function checkNFT() {
+        const currentUser = Moralis.User.current();
+        const useraddress =  addressbox.value;
+        console.log(useraddress);
+        const options = { chain: 'matic', address: useraddress };
+        
+        const polygonNFTs = await Moralis.Web3.getNFTs(options);
+        const nftCount = await Moralis.Web3.getNFTsCount(options);
+        console.log("getting that accounts NFTs");
+        console.log(nftCount);
+
+        const profit = 93;
+        console.log(profit);
+
+        const daomember = true;
+        console.log(daomember);
+
+        const flyprice = 5;
+
+        console.log("getting NFT Balance");
+        const getnftbalances = nftCount * flyprice;
+        console.log(getnftbalances);
+
+        document.getElementById('numnfts').innerHTML = '<strong>' + nftCount + '</strong>';
+        document.getElementById('yourprofit').innerHTML = '<strong>' + profit + '</strong>';
+        document.getElementById('daomember').innerHTML = '<strong>' + daomember  + '</strong>';
+        document.getElementById('yournftbalances').innerHTML = '<strong>' + getnftbalances  + '</strong>';
+
+//token_address the contract address, e.g. for trust tokens?
+        
+        var count = 0;
+        for(var i = 0; i < polygonNFTs.length; ++i){
+//need to retrieve by the different types of NFTs / collections
+            if(polygonNFTs[i].token_address == '0x3a3f6da5bae9974c66b16cd4b1efd1585c081b19')
+                count++;
+        }
+        console.log(count);
+        if (count > 0) {
+        $('#lockbutton').prop('disabled', false);
+        }
+        else {
+            console.log("No Trust Tokens");
+        }
+        
+    }
+
+    //Get FLDG Balance for current user
+    async function getFLDGBalance(){
+      
+      console.log("getting balance");
+
+          const currentUser = Moralis.User.current();
+          const useraddress = currentUser.attributes.ethAddress;
+          const erc20Contract = '0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b';
+
+          var balance = "";
+
+          const chainOptions = { chain: "matic" }
+          const balances = await Moralis.Web3API.account.getTokenBalances(chainOptions);
+          const tokenAddress =  "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b"; // FLDG Contract Address
+          const tokenBalance = balances.filter(token => token.name === 'FledgeCoin');
+          //user's fldg balance is below - you need to display this and convert it
+          console.log(tokenBalance[0].balance);
+          const fldgbalanceget = tokenBalance[0].balance;
+          console.log(fldgbalanceget);
+//          const fldgbalanceget = Number.parseFloat(balance.balance).toFixed(2);
+          const fldgbalanceget1 = Number.parseFloat(fldgbalanceget / 1000000000000000000).toFixed(2);
+      
+      console.log("calculating USD Balance");
+      console.log(fldgbalanceget1);
+
+      document.getElementById('fldgbalance').innerHTML = '<strong>' + fldgbalanceget1 + '</strong>';
+
+      }
+
     //Get the FLDG Price    
-//Can you get address from a source (wallet or parameter)
     async function getPrice() {
         const options = {
           address: "0x5118aeC3AfCca3f1e21733eE9C88BB800AFE6F7b",
@@ -42,9 +131,10 @@
           exchange: "Quickswap",
         };
         const price = await Moralis.Web3API.token.getTokenPrice(options);
-
+ 
         //get price from array and round to 2 decimal places
         const usdprice = Number.parseFloat(price.usdPrice).toFixed(2);
+        console.log(usdprice);
         
         //display price
         document.getElementById('fldgprice').innerHTML = '<strong>' + usdprice + '</strong>';
@@ -66,13 +156,12 @@
           <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
             <div class="ps-lg-1">
               <div class="d-flex align-items-center justify-content-between">
-                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">Address Story</a>
+                <a href="#" target="_self" class="btn me-2 buy-now-btn border-0">Address Lookup</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_navbar.html -->
@@ -291,9 +380,26 @@
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">DAO Membership</h6>
-   <!-- add your in the DAO  or Join the DAO depending on status -->
-                    <a href="https://snapshot.org/#/thefledge.eth" title="Website">You are a Member</a>
+</div>
+                    <!--Connect Wallet-->
+              <div class="row">
+                <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-9">
+                          <div>
+                            <input id="addressbox" type="text"</input>
+                          </div>
+                          <div>
+                            <button onclick="login()" id="walletbutton" type="button" class="btn btn-primary">Lookup Address</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                </div>
+                </div>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
@@ -550,7 +656,6 @@
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <!-- content-wrapper ends -->
@@ -588,13 +693,15 @@
     <script src="assets/js/todolist.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/dashboard.js">
+
+    </script>
     
     <script>
         $( document ).ready(function() {
             console.log( "ready!" );
             getPrice();
-        });
+          });
     </script>
     <!-- End custom js for this page -->
   </body>
